@@ -5,18 +5,21 @@ import posthog from "posthog-js";
 
 const ExploreBtn = () => {
   const handleClick = () => {
-    console.log('CLICK');
     posthog.capture('explore_clicked');
+    const el = document.getElementById("events");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <button type="button" id="explore-btn" className="mt-7 mx-auto" onClick={handleClick}>
-        <a href="#events">
-            Explore Events
-            <Image src="/icons/arrow-down.svg" alt="arrow-down" height={24} width={24}/>
-        </a>
+    <button
+      type="button"
+      onClick={handleClick}
+      className="mt-7 mx-auto flex items-center gap-2 border border-primary/40 text-primary hover:bg-primary/10 transition-colors px-6 py-3 rounded-full font-medium cursor-pointer"
+    >
+      Explore Events
+      <Image src="/icons/arrow-down.svg" alt="arrow-down" height={20} width={20} />
     </button>
-  )
-}
+  );
+};
 
-export default ExploreBtn
+export default ExploreBtn;
