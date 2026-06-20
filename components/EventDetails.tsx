@@ -4,8 +4,9 @@ import {IEvent} from "@/database";
 import {getSimilarEventsBySlug} from "@/lib/actions/event.action";
 import Image from "next/image";
 import BookEvent from "@/components/BookEvent";
-import EventCard from "@/components/EventCard";
 import {cacheLife} from "next/cache";
+import SimilarEventsSlider from "@/components/SimilarEventsSilder";
+import Link from "next/link";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -26,9 +27,6 @@ const EventAgenda = ({ agendaItems }: { agendaItems: string[] }) => (
         </ul>
     </div>
 )
-
-import Link from "next/link";
-
 const EventTags = ({ tags }: { tags: string[] }) => (
     <div className="flex flex-row gap-1.5 flex-wrap">
         {tags.map((tag) => (
@@ -130,14 +128,7 @@ const EventDetails = async ({ params }: { params: Promise<string> }) => {
                 </aside>
             </div>
 
-            <div className="flex w-full flex-col gap-4 pt-20">
-                <h2>Similar Events</h2>
-                <div className="events">
-                    {similarEvents.length > 0 && similarEvents.map((similarEvent: IEvent) => (
-                        <EventCard key={similarEvent.title} {...similarEvent} />
-                    ))}
-                </div>
-            </div>
+            <SimilarEventsSlider events={similarEvents} />
         </section>
     )
 }
