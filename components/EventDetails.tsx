@@ -27,6 +27,7 @@ const EventAgenda = ({ agendaItems }: { agendaItems: string[] }) => (
         </ul>
     </div>
 )
+
 const EventTags = ({ tags }: { tags: string[] }) => (
     <div className="flex flex-row gap-1.5 flex-wrap">
         {tags.map((tag) => (
@@ -73,6 +74,7 @@ const EventDetails = async ({ params }: { params: Promise<string> }) => {
     const bookings = 10;
 
     const similarEvents: IEvent[] = await getSimilarEventsBySlug(slug);
+    const plainSimilarEvents = JSON.parse(JSON.stringify(similarEvents));
 
     return (
         <section id="event">
@@ -128,7 +130,7 @@ const EventDetails = async ({ params }: { params: Promise<string> }) => {
                 </aside>
             </div>
 
-            <SimilarEventsSlider events={similarEvents} />
+            <SimilarEventsSlider events={plainSimilarEvents} />
         </section>
     )
 }
