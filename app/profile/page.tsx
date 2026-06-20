@@ -129,7 +129,7 @@ export default function ProfilePage() {
             </Link>
           </div>
         ) : (
-          <ul className="flex flex-col gap-4">
+          <ul className="flex flex-col gap-4 list-none">
             {events.map((event) => (
               <li key={event.slug}>
                 <Link href={`/events/${event.slug}`}>
