@@ -6,6 +6,8 @@ import LightRays from "@/components/LightRay";
 import Navbar from "@/components/Navbar";
 import AuthProvider from "@/components/AuthProvider";
 
+export const dynamic = "force-dynamic";
+
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const schibstedGrotesk = Schibsted_Grotesk({
