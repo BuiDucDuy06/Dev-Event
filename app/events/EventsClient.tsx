@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import EventCard from '@/components/EventCard';
 import { IEvent } from '@/database/event.model';
 
@@ -56,6 +56,10 @@ function FilterChip({
 export default function EventsClient({ events, initialSearch = '' }: { events: IEvent[], initialSearch?: string }) {
   const [search, setSearch] = useState(initialSearch);
   const [selectedModes, setSelectedModes] = useState<string[]>([]);
+
+  useEffect(() => {
+    setSearch(initialSearch);
+  }, [initialSearch]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [dateFilter, setDateFilter] = useState<DateFilter>('all');
   const [selectedLocation, setSelectedLocation] = useState('');
@@ -109,13 +113,14 @@ export default function EventsClient({ events, initialSearch = '' }: { events: I
     );
 
   const clearAll = () => {
+    setSearch('');
     setSelectedModes([]);
     setSelectedTags([]);
     setDateFilter('all');
     setSelectedLocation('');
   };
 
-  const hasFilters = selectedModes.length || selectedTags.length || dateFilter !== 'all' || selectedLocation;
+  const hasFilters = search || selectedModes.length || selectedTags.length || dateFilter !== 'all' || selectedLocation;
 
   return (
     <section className="flex flex-col gap-8">
@@ -124,6 +129,17 @@ export default function EventsClient({ events, initialSearch = '' }: { events: I
         <h1 className="text-4xl font-bold">All Events</h1>
         <p className="text-light-200">Browse and filter upcoming developer events</p>
       </div>
+
+      {/* Active search indicator */}
+      {search && (
+        <div className="flex items-center gap-2">
+          <span className="text-light-200 text-sm">Searching for:</span>
+          <span className="pill flex items-center gap-2">
+            "{search}"
+            <button onClick={() => setSearch('')} className="hover:text-white cursor-pointer">×</button>
+          </span>
+        </div>
+      )}
 
       <div className="flex flex-col gap-5">
         {/* Date filter */}
