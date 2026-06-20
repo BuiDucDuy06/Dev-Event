@@ -11,7 +11,6 @@ const Navbar = () => {
   const { user } = useAuth();
   const router = useRouter();
 
-  // Mirror of the article's logout = async () => { firebase.auth().signOut() }
   const handleLogout = async () => {
     await signOut(auth);
     router.push("/");
@@ -32,19 +31,21 @@ const Navbar = () => {
 
           {user ? (
             <div className="flex items-center gap-3">
-              {user.photoURL ? (
-                <Image
-                  src={user.photoURL}
-                  alt={user.displayName ?? "User"}
-                  width={32}
-                  height={32}
-                  className="rounded-full border border-primary/40"
-                />
-              ) : (
-                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-sm font-semibold">
-                  {user.displayName?.charAt(0).toUpperCase() ?? "U"}
-                </div>
-              )}
+              <Link href="/profile" className="flex items-center">
+                {user.photoURL ? (
+                  <Image
+                    src={user.photoURL}
+                    alt={user.displayName ?? "User"}
+                    width={32}
+                    height={32}
+                    className="rounded-full border border-primary/40 hover:border-primary transition-colors"
+                  />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-primary/20 hover:bg-primary/30 flex items-center justify-center text-primary text-sm font-semibold transition-colors">
+                    {user.displayName?.charAt(0).toUpperCase() ?? "U"}
+                  </div>
+                )}
+              </Link>
               <button
                 onClick={handleLogout}
                 className="text-light-200 hover:text-white text-sm cursor-pointer transition-colors"

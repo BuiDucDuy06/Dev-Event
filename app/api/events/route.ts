@@ -32,7 +32,6 @@ export async function POST(req: NextRequest){
         const uploadResult = await new Promise((resolve, reject) =>{
             cloudinary.uploader.upload_stream({ resource_type: 'image', folder: 'DevEvent'}, (error, results) =>{
                 if(error) return reject(error);
-
                 resolve(results);
             }).end(buffer);
         })
@@ -44,15 +43,19 @@ export async function POST(req: NextRequest){
         return NextResponse.json({message: 'Event created Successfully', event:createdEvent}, {status: 206});
     } catch(e){
         console.error(e);
-        return NextResponse.json({message: 'Event Creation failed', error: e instanceof Error ? e.message: 'Uknown'}, {status: 500})
+        return NextResponse.json({message: 'Event Creation failed', error: e instanceof Error ? e.message: 'Unknown'}, {status: 500})
     }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
     try {
         await connectDB();
 
-        const events = await Event.find().sort({createdAt: -1});
+        const { searchParams } = new URL(req.url);
+        const organizer = searchParams.get("organizer");
+
+        const filter = organizer ? { organizer } : {};
+        const events = await Event.find(filter).sort({ createdAt: -1 });
         
         return NextResponse.json({message: 'Event fetched Successfully', events}, {status: 200})
     } catch (e) {

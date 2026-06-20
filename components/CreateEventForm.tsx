@@ -78,7 +78,8 @@ export default function CreateEventForm() {
       if (key !== "image" && val !== null) data.append(key, val as string);
     });
     data.append("image", form.image);
-    data.append("organizer", user?.displayName ?? "Anonymous");
+    const organizer = user?.displayName || user?.email?.split("@")[0] || user?.uid || "Anonymous";
+    data.append("organizer", organizer);
     data.append("agenda", JSON.stringify(agendaItems));
     data.append("tags", JSON.stringify(tags));
 
