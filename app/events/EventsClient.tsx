@@ -53,14 +53,18 @@ function FilterChip({
   );
 }
 
-export default function EventsClient({ events, initialSearch = '' }: { events: IEvent[], initialSearch?: string }) {
+export default function EventsClient({ events, initialSearch = '', initialTag = '' }: { events: IEvent[], initialSearch?: string, initialTag?: string }) {
   const [search, setSearch] = useState(initialSearch);
   const [selectedModes, setSelectedModes] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>(initialTag ? [initialTag] : []);
 
   useEffect(() => {
     setSearch(initialSearch);
   }, [initialSearch]);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  useEffect(() => {
+    setSelectedTags(initialTag ? [initialTag] : []);
+  }, [initialTag]);
   const [dateFilter, setDateFilter] = useState<DateFilter>('all');
   const [selectedLocation, setSelectedLocation] = useState('');
 

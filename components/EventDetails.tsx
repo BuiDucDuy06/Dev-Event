@@ -27,10 +27,14 @@ const EventAgenda = ({ agendaItems }: { agendaItems: string[] }) => (
     </div>
 )
 
+import Link from "next/link";
+
 const EventTags = ({ tags }: { tags: string[] }) => (
     <div className="flex flex-row gap-1.5 flex-wrap">
         {tags.map((tag) => (
-            <div className="pill" key={tag}>{tag}</div>
+            <Link href={`/events?tag=${encodeURIComponent(tag)}`} key={tag}>
+                <div className="pill hover:bg-primary/20 hover:border-primary/50 transition-colors cursor-pointer">{tag}</div>
+            </Link>
         ))}
     </div>
 )
